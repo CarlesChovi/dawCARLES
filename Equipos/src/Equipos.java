@@ -181,18 +181,6 @@ public class Equipos extends JFrame {
 		contentPane.add(btnGuardarEquipoEn);
 		
 		
-
-		JLabel lblIdliga = new JLabel("IdLiga");
-		lblIdliga.setBounds(314, 117, 50, 14);
-		contentPane.add(lblIdliga);
-		
-		textField_5 = new JTextField();
-		textField_5.setEnabled(false);
-		textField_5.setText("0");
-		textField_5.setColumns(10);
-		textField_5.setBounds(374, 114, 50, 20);
-		contentPane.add(textField_5);		
-		
 		JButton btnModificar = new JButton("Modificar");
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -228,5 +216,18 @@ public class Equipos extends JFrame {
 		
 		//Conectamos con la base de datos
 		baseDatos =new ControllerDB(listadoEquipos);
+		
+		JLabel lblIdliga = new JLabel("IdLiga");
+		lblIdliga.setBounds(314, 117, 50, 14);
+		contentPane.add(lblIdliga);
+		
+		textField_5 = new JTextField();
+		textField_5.setEnabled(false);
+		textField_5.setText("0");
+		textField_5.setColumns(10);
+		textField_5.setBounds(374, 114, 50, 20);
+		contentPane.add(textField_5);
+		textField_5.setColumns(10);
+		baseDatos.leerEquipo();
 	}	
 }

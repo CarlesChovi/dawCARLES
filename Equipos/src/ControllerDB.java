@@ -46,8 +46,8 @@ public class ControllerDB {
 					{
 						
 						 System.out.println("id="+conjuntoResultados.getObject("ID")+
-							      ", Nombre="+conjuntoResultados.getObject("Nombre"));						 
-							   Equipo equip=new Equipo ((String)conjuntoResultados.getObject("Nombre"),
+							      ", Nombre="+conjuntoResultados.getObject("NombreEquipo"));						 
+							   Equipo equip=new Equipo ((String)conjuntoResultados.getObject("NombreEquipo"),
 									   					(int)conjuntoResultados.getObject("GolesFavor"),
 									   					(int)conjuntoResultados.getObject("GolesEnContra"),
 									   					(int)conjuntoResultados.getObject("PartidosGanados"),
