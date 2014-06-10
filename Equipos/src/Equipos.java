@@ -197,6 +197,8 @@ public class Equipos extends JFrame {
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
+				
+				
 				//seleccionar
 				baseDatos.modificarEquipo(Integer.parseInt(textField_5.getText()), (nombreEquipo.getText()), Integer.parseInt(golesFavor.getText()), Integer.parseInt(golesEnContra.getText()), Integer.parseInt(partidosGanados.getText()), Integer.parseInt(partidosPerdidos.getText()));
 				equipo.setNombre(nombreEquipo.getText());
