@@ -40,19 +40,19 @@ public class ControllerDB {
 		// crea objeto Statement para consultar la base de datos
 					instruccion = (Statement) conexion.createStatement();
 					// consulta la base de datos
-					conjuntoResultados = instruccion.executeQuery("SELECT Nombre, GolesFavor, GolesEnContra, PartidosGanados, PartidosPerdidos, ID FROM equipos");
+					conjuntoResultados = instruccion.executeQuery("SELECT NombreEquipo, GolesFavor, GolesEnContra, PartidosGanados, PartidosPerdidos, ID FROM equipos");
 					//Mostrar por pantalla
 					while (conjuntoResultados.next())
 					{
 						
 						 System.out.println("id="+conjuntoResultados.getObject("ID")+
 							      ", Nombre="+conjuntoResultados.getObject("Nombre"));						 
-							   Equipo equip=new Equipo ((int)conjuntoResultados.getObject("ID"),
-									   							(String)conjuntoResultados.getObject("Nombre"),
-									   							(int)conjuntoResultados.getObject("GolesFavor"),
-									   							(int)conjuntoResultados.getObject("GolesEnContra"),
-									   							(int)conjuntoResultados.getObject("PartidosGanados"),
-							   									(int)conjuntoResultados.getObject("PartidosPerdidos"));
+							   Equipo equip=new Equipo ((String)conjuntoResultados.getObject("Nombre"),
+									   					(int)conjuntoResultados.getObject("GolesFavor"),
+									   					(int)conjuntoResultados.getObject("GolesEnContra"),
+									   					(int)conjuntoResultados.getObject("PartidosGanados"),
+							   							(int)conjuntoResultados.getObject("PartidosPerdidos"),
+							   							(int)conjuntoResultados.getObject("ID"));
 							  listadoEquipos.addItem(equip);								
 					}
 					conjuntoResultados.close();
@@ -61,7 +61,7 @@ public class ControllerDB {
 			excepcionSql.printStackTrace();}
 	}
 	
-	public int insertarEquipo(String nombre, int golFavor, int golContra, int partGanados, int partPerdidos){
+	public int insertarEquipo(String nombreEquipo, int golFavor, int golContra, int partGanados, int partPerdidos){
 		// crea objeto Statement para consultar la base de datos
 		try {
 			instruccion = (Statement) conexion.createStatement();
@@ -71,14 +71,14 @@ public class ControllerDB {
 		}
 		//inserción en base de datos
 		try{
-			String sql="INSERT INTO `apuestas`.`equipos` (`idEquipo`, `idLiga`, `nombreEquipo`, `golesFavor`, `golesEnContra`, `partidosGanados`, `partidosPerdidos`) VALUES ("
-														+"'"+nombre+"', '"+golFavor+"', '"+golContra+"', '"+partGanados+"', '"+partPerdidos+"');";
+			String sql="INSERT INTO `apuestas`.`equipos` (`nombreEquipo`, `golesFavor`, `golesEnContra`, `partidosGanados`, `partidosPerdidos`) VALUES ("
+														+"'"+nombreEquipo+"', '"+golFavor+"', '"+golContra+"', '"+partGanados+"', '"+partPerdidos+"');";
 			instruccion.executeUpdate(sql);
 			
 			//PARA GUARDAR EL ID
-			sql = "SELECT * FROM apuestas ORDER BY ID DESC LIMIT 1";
+			sql = "SELECT * FROM equipos";
 			conjuntoResultados = instruccion.executeQuery(sql);
-			int ID=-1;
+			int ID=1;
 			//Mostrar por pantalla
 			while (conjuntoResultados.next())
 			{
@@ -90,12 +90,12 @@ public class ControllerDB {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return -1;
+			return 1;
 			}
 		}
 			
 	
-	public void modificarEquipo (int idEquipo, String nombre, int golFavor, int golContra, int partGanados, int partPerdidos){
+	public void modificarEquipo (int idEquipo, String nombreEquipo, int golFavor, int golContra, int partGanados, int partPerdidos){
 		// crea objeto Statement para consultar la base de datos
 					try {
 						instruccion = (Statement) conexion.createStatement();
@@ -106,19 +106,19 @@ public class ControllerDB {
 					// insercion en base de datos
 					try {
 						String sql="UPDATE  `apuestas`.`equipos` SET "
-								+ "`Nombre` = '"+nombre+"',"
+								+ "`Nombre` = '"+nombreEquipo+"',"
 								+"`GolesFavor` =  '"+golFavor+"',"
 								+"`GolesEnContra` =  '"+golContra+"',"
 								+"`PartidosGanados` =  '"+partGanados+"'"
 								+"`PartidosPerdidos` = '"+partPerdidos+"'"+
-								 " WHERE  `equipo`.`ID` ="+idEquipo+"";
+								 " WHERE  `equipo`.`idEquipo` ="+idEquipo+"";
 						instruccion.executeUpdate(sql);
 					}catch (SQLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 						}
 					}
-	public void remove (int ID){
+	public void remove (int IDEquipo){
 		try {
 			instruccion = (Statement) conexion.createStatement();
 		} catch (SQLException e) {
@@ -127,7 +127,7 @@ public class ControllerDB {
 		}
 		// insercion en base de datos
 		try {
-			String sql="DELETE FROM `apuestas`.`equipos` WHERE  `equipos`.`ID` ="+ID+"";
+			String sql="DELETE FROM `apuestas`.`equipos` WHERE  `equipos`.`IDEquipo` ="+IDEquipo+"";
 			instruccion.executeUpdate(sql);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

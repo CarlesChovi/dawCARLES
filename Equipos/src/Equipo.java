@@ -7,6 +7,7 @@ public class Equipo{
 	private int golesEnContra;
 	private int partidosGanados;
 	private int partidosPerdidos;
+	private int liga;
 	
 	public Equipo() {
 		// TODO Auto-generated constructor stub
@@ -18,7 +19,7 @@ public class Equipo{
 	partidosGanados=0;
 	partidosPerdidos=0;
 	}
-	public Equipo(int ID, String Nombre, int GolesFavor, int GolesEnContra, int PartidosGanados, int PartidosPerdidos) {
+	public Equipo(String Nombre, int GolesFavor, int GolesEnContra, int PartidosGanados, int PartidosPerdidos, int ID) {
 		id=ID;
 		nombreEquipo=Nombre;
 		golesFavor=GolesFavor;
@@ -31,10 +32,10 @@ public class Equipo{
 	public void setid(int id){
 		this.id=id;
 	}
-	/*public void setliga(int liga){
+	public void setliga(int liga){
 		this.liga=liga;
 	}
-	*/
+	
 	public void setNombre(String nombreEquipo){
 		this.nombreEquipo=nombreEquipo;
 	}
@@ -50,18 +51,15 @@ public class Equipo{
 	public void setpartPerdidos(int partidosPerdidos){
 		this.partidosPerdidos=partidosPerdidos;
 	}
-	public void setId(int id) {
-		id=id;
-	}
 	
 	
 	public int getid(){
 		return id;
 	}
-	/*public int getliga(){
+	public int getliga(){
 		return liga;
 	}
-	*/
+	
 	public String getNombre(){
 		return nombreEquipo;
 	}
@@ -77,9 +75,7 @@ public class Equipo{
 	public int getpartPerdidos(){
 		return partidosPerdidos;
 	}
-	public int getId() {
-		return id;
-	}
+
 	//Falta por crear
 	//El método toString para que aparezca en el comboBox
 	public String toString(){
