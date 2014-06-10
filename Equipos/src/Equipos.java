@@ -23,9 +23,14 @@ public class Equipos extends JFrame {
 	private JTextField partidosGanados;
 	private JTextField partidosPerdidos;
 	private JTextField textField_5;
-	private Equipo k;
+	private Equipo equipo;
 		
 	private JComboBox<Equipo> listadoEquipos;
+	private JTextField textID;
+	
+	//Objeto Base de Datos
+	private ControllerDB baseDatos;
+	
 
 	/**
 	 * Launch the application.
@@ -59,16 +64,20 @@ public class Equipos extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		listadoEquipos = new JComboBox();
+		listadoEquipos = new JComboBox<Equipo>();
 		listadoEquipos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				k=listadoEquipos.getItemAt(listadoEquipos.getSelectedIndex());
-				nombreEquipo.setText(String.valueOf(k.getNombre()));
-				golesFavor.setText(String.valueOf(k.getgolesFavor()));
-				golesEnContra.setText(String.valueOf(k.getgolesContra()));
-				partidosGanados.setText(String.valueOf(k.getpartGanados()));
-				partidosPerdidos.setText(String.valueOf(k.getpartPerdidos()));
-				
+				//Cojemos del comboBox la informacion y la pone en su sitio
+				equipo=listadoEquipos.getItemAt(listadoEquipos.getSelectedIndex());
+				if(equipo!=null)
+				{
+					nombreEquipo.setText(String.valueOf(equipo.getNombre()));
+					golesFavor.setText(String.valueOf(equipo.getgolesFavor()));
+					golesEnContra.setText(String.valueOf(equipo.getgolesContra()));
+					partidosGanados.setText(String.valueOf(equipo.getpartGanados()));
+					partidosPerdidos.setText(String.valueOf(equipo.getpartPerdidos()));
+					textID.setText(String.valueOf(equipo.getId()));
+				}
 			}
 		});
 		listadoEquipos.setBounds(0, 36, 424, 20);
@@ -128,6 +137,7 @@ public class Equipos extends JFrame {
 		partidosPerdidos.setBounds(116, 231, 50, 20);
 		contentPane.add(partidosPerdidos);
 		
+		
 		JButton btnGuardarEquipoEn = new JButton("Guardar equipo en DB");
 		btnGuardarEquipoEn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -154,20 +164,32 @@ public class Equipos extends JFrame {
 				//2.- Creamos un nuevo objeto
 				else  {
 				
-				k=new Equipo();
+					
+					Equipo eq=new Equipo();
+					int ID=0;
+					//ID=datos.insertarEquipo(nombreEquipo, golesFavor, golesEnContra, partidosGanados, partidosPerdidos);
+					ID=baseDatos.insertarEquipo((nombreEquipo.getText()), Integer.parseInt(golesFavor.getText()), Integer.parseInt(golesEnContra.getText()), Integer.parseInt(partidosGanados.getText()), Integer.parseInt(partidosPerdidos.getText()));
+					eq.setNombre(nombreEquipo.getText());
+					eq.setgolesFavor(Integer.parseInt(golesFavor.getText()));
+					eq.setgolesContra(Integer.parseInt(golesEnContra.getText()));
+					eq.setpartGanados(Integer.parseInt(partidosGanados.getText()));
+					eq.setpartPerdidos(Integer.parseInt(partidosGanados.getText()));
+					eq.setid(ID);
+				/*
 				k.setNombre(String.valueOf(nombreEquipo.getText()));
 				k.setpartGanados(Integer.valueOf((partidosGanados.getText())));
 				k.setpartPerdidos(Integer.valueOf((partidosPerdidos.getText())));
 				k.setgolesFavor(Integer.valueOf(golesFavor.getText()));
 				k.setgolesContra(Integer.valueOf(golesEnContra.getText()));
-
+				*/
 				//3.- Lo almacenaremos en el ComboBox
-				listadoEquipos.addItem(k);
+				listadoEquipos.addItem(eq);
 				}
 			}
 		});
 		btnGuardarEquipoEn.setBounds(0, 283, 166, 23);
 		contentPane.add(btnGuardarEquipoEn);
+		
 		
 
 		JLabel lblIdliga = new JLabel("IdLiga");
@@ -186,25 +208,33 @@ public class Equipos extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				//seleccionar
-				listadoEquipos.getItemAt(listadoEquipos.getSelectedIndex());
-				k.setNombre(String.valueOf(nombreEquipo.getText()));
-				k.setpartGanados(Integer.valueOf((partidosGanados.getText())));
-				k.setpartPerdidos(Integer.valueOf((partidosPerdidos.getText())));
-				k.setgolesFavor(Integer.valueOf(golesFavor.getText()));
-				k.setgolesContra(Integer.valueOf(golesEnContra.getText()));
+				baseDatos.insertarEquipo((nombreEquipo.getText()), Integer.parseInt(golesFavor.getText()), Integer.parseInt(golesEnContra.getText()), Integer.parseInt(partidosGanados.getText()), Integer.parseInt(partidosPerdidos.getText()));
+				equipo.setNombre(nombreEquipo.getText());
+				equipo.setgolesFavor(Integer.parseInt(golesFavor.getText()));
+				equipo.setgolesContra(Integer.parseInt(golesEnContra.getText()));
+				equipo.setpartGanados(Integer.parseInt(partidosGanados.getText()));
+				equipo.setpartPerdidos(Integer.parseInt(partidosPerdidos.getText()));
 			}
 		});
 		btnModificar.setBounds(188, 283, 89, 23);
 		contentPane.add(btnModificar);
 		
+		
+		
 		JButton btnBorrar = new JButton("Borrar");
 		btnBorrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				listadoEquipos.removeItem(listadoEquipos.getItemAt(listadoEquipos.getSelectedIndex()));
+				listadoEquipos.removeItem(equipo);
+				baseDatos.remove(Integer.parseInt(textID.getText()));
 			}
 		});
 		btnBorrar.setBounds(305, 283, 89, 23);
 		contentPane.add(btnBorrar);
+		
+		
+		
+		//Conectamos con la base de datos
+		baseDatos =new ControllerDB(listadoEquipos);
 	}	
 }
