@@ -26,6 +26,7 @@ public class Equipo{
 		partidosGanados=PartidosGanados;
 		partidosPerdidos=PartidosPerdidos;
 		
+		
 	}
 	public void setid(int id){
 		this.id=id;
